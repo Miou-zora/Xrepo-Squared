@@ -22,17 +22,6 @@ package("engine-squared")
         "PluginWindow"
     }
 
-    on_build(function (package)
-        local configs = {}
-        if package:config("shared") then
-            configs.kind = "shared"
-        end
-
-        for _, plugin in ipairs(plugins) do
-            import("package.tools.xmake").install(package, configs, {target = plugin})
-        end
-    end)
-
     on_install(function (package)
         local configs = {}
         if package:config("shared") then
@@ -40,4 +29,9 @@ package("engine-squared")
         end
 
         import("package.tools.xmake").install(package, configs)
+
+        for _, plugin in ipairs(plugins) do
+            local plugin_package = package:dep(plugin)
+            import("package.tools.xmake").install(plugin_package, configs)
+        end
     end)
