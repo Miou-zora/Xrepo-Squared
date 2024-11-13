@@ -3,6 +3,8 @@ package("engine-squared")
     set_description("Open-source game engine written in C++.")
     set_license("GPL-3.0")
 
+    add_deps("entt")
+
     add_urls("https://github.com/EngineSquared/EngineSquared.git")
 
     local plugins = {
@@ -22,6 +24,10 @@ package("engine-squared")
         "PluginWindow"
     }
 
+    for _, plugin in ipairs(plugins) do
+        add_deps(plugin)
+    end
+
     on_install(function (package)
         local configs = {}
         if package:config("shared") then
@@ -29,9 +35,4 @@ package("engine-squared")
         end
 
         import("package.tools.xmake").install(package, configs)
-
-        for _, plugin in ipairs(plugins) do
-            local plugin_package = package:dep(plugin)
-            import("package.tools.xmake").install(plugin_package, configs)
-        end
     end)
