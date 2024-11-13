@@ -13,7 +13,5 @@ package("engine-squared")
             configs.kind = "shared"
         end
 
-        os.run("xmake build")
-
         import("package.tools.xmake").install(package, configs)
     end)
