@@ -7,8 +7,9 @@ package("engine-squared")
 
     add_urls("https://github.com/EngineSquared/EngineSquared.git")
 
+    local core_engine = "EngineSquaredCore"
+
     local plugins = {
-        "EngineSquaredCore",
         "PluginCamera",
         "PluginCollision",
         "PluginColors",
@@ -24,9 +25,20 @@ package("engine-squared")
         "PluginWindow"
     }
 
+    local components = {}
+
     for _, plugin in ipairs(plugins) do
-        add_deps(plugin)
+        add_configs(plugin, {description = "Enable the " .. plugin .. " plugin.", default = false, type = "boolean"})
     end
+
+    on_component("PluginCamera", function (package, config)
+        local e = package:config("shared") and "" or "-s"
+        if package:debug() then
+            e = e .. "-d"
+        end
+
+        component:add("deps", "glm")
+    end)
 
     on_install(function (package)
         local configs = {}
