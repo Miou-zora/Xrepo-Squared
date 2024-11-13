@@ -3,7 +3,7 @@ package("engine-squared")
     set_description("Open-source game engine written in C++.")
     set_license("GPL-3.0")
 
-    add_deps("entt")
+    add_deps("entt", "vulkan-headers", "vulkansdk", "vulkan-hpp", "glfw", "glm", "gtest")
 
     add_urls("https://github.com/EngineSquared/EngineSquared.git")
 
