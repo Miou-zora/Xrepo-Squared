@@ -5,11 +5,39 @@ package("engine-squared")
 
     add_urls("https://github.com/EngineSquared/EngineSquared.git")
 
+    local plugins = {
+        "EngineSquaredCore",
+        "PluginCamera",
+        "PluginCollision",
+        "PluginColors",
+        "PluginInput",
+        "PluginMath",
+        "PluginObject",
+        "PluginPhysics",
+        "PluginScene",
+        "PluginTime",
+        "PluginUI",
+        "PluginUtils",
+        "PluginVkWrapper",
+        "PluginWindow"
+    }
+
+    on_build(function (package)
+        local configs = {}
+        if package:config("shared") then
+            configs.kind = "shared"
+        end
+
+        for _, plugin in ipairs(plugins) do
+            import("package.tools.xmake").install(package, configs, {target = plugin})
+        end
+    end)
+
     on_install(function (package)
         local configs = {}
         if package:config("shared") then
             configs.kind = "shared"
         end
-        -- copy header files
+
         import("package.tools.xmake").install(package, configs)
     end)
