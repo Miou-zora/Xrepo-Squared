@@ -13,5 +13,6 @@ package("engine-squared")
             configs.kind = "shared"
         end
 
-        import("package.tools.xmake").install(package, configs)
+        -- add -a flag to xmake install
+        import("package.tools.xmake").install(package, configs, {install = "-a"})
     end)
